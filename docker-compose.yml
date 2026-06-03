@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  api-isai:
+    build: .
+    container_name: api-pencocokan-jawaban
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - DB_HOST=db-mysql
+      - DB_USER=root
+      - DB_PASSWORD=rahasia
+      - DB_NAME=penilaian_db
+    depends_on:
+      db-mysql:
+        condition: service_healthy
+    networks:
+      - isai_net
+
+  db-mysql:
+    image: mysql:8.0
+    container_name: mysql-isai
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=rahasia
+      - MYSQL_DATABASE=penilaian_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - isai_net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  isai_net:
+    driver: bridge
+
+volumes:
+  db_data:
