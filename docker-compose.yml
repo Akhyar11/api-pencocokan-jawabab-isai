@@ -12,9 +12,12 @@ services:
       - DB_USER=root
       - DB_PASSWORD=rahasia
       - DB_NAME=penilaian_db
+      - CHROMA_URL=http://chromadb:8000
     depends_on:
       db-mysql:
         condition: service_healthy
+      chromadb:
+        condition: service_started
     networks:
       - isai_net
 
@@ -37,9 +40,21 @@ services:
       timeout: 5s
       retries: 5
 
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: chroma-isai
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    networks:
+      - isai_net
+
 networks:
   isai_net:
     driver: bridge
 
 volumes:
   db_data:
+  chroma_data:

@@ -9,7 +9,8 @@ const __dirname = dirname(__filename);
 
 let model = null;
 let riwayatCollection = null;
-const chromaClient = new ChromaClient();
+const chromaUrl = process.env.CHROMA_URL || 'http://localhost:8000';
+const chromaClient = new ChromaClient({ path: chromaUrl });
 
 export const initAI = async () => {
   try {
