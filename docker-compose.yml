@@ -26,8 +26,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=rahasia
       - MYSQL_DATABASE=penilaian_db
-    ports:
-      - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
     networks:
