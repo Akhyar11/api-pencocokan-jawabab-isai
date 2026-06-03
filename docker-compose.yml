@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   api-isai:
     build: .
@@ -44,8 +42,6 @@ services:
     image: chromadb/chroma:latest
     container_name: chroma-isai
     restart: always
-    ports:
-      - "8000:8000"
     volumes:
       - chroma_data:/chroma/chroma
     networks:
